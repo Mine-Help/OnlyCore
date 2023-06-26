@@ -54,7 +54,7 @@ public final class FormatUtils {
     }
 
     public static @NotNull List<Entry<String, BigDecimal>> numberSymbols() {
-        return List.of(
+        return CUtils.list(
                 new AbstractMap.SimpleEntry<>("m", new BigDecimal("100000")),
                 new AbstractMap.SimpleEntry<>("b", new BigDecimal("100000000")),
                 new AbstractMap.SimpleEntry<>("t", new BigDecimal("100000000000"))

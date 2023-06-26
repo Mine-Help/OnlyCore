@@ -9,6 +9,10 @@ import java.util.Map.Entry;
 
 public final class StringUtils {
 
+    public static @NotNull String stripLeading(@NotNull String string) {
+        return string.replaceAll("^\\s+", "");
+    }
+
     @Contract("!null, _ -> !null")
     public static @Nullable String replace(@Nullable String string, @NotNull Map<String, String> placeholders) {
         if (string == null) return null;

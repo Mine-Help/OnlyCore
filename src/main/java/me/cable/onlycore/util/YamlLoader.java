@@ -114,30 +114,41 @@ public class YamlLoader {
         config = new YamlConfiguration();
 
         if (resource == null) {
-            try {
-                config.load(file);
-            } catch (IOException e) {
-                log("Could not load the config file %file%");
-                e.printStackTrace();
-            } catch (InvalidConfigurationException e) {
-                log("Invalid yaml in %file%");
-                e.printStackTrace();
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    log("Could not create file %file%");
+                    e.printStackTrace();
+                    return;
+                }
             }
         } else {
             assert resourcePlugin != null;
 
-            if (!resourceReplace && file.isFile()) {
-                return; // already exists
-            }
+            if (resourceReplace || !file.exists()) {
+                resourcePlugin.saveResource(resource, true);
 
-            resourcePlugin.saveResource(resource, true);
-
-            try {
-                CUtils.move(new File(resourcePlugin.getDataFolder(), resource), file);
-            } catch (IOException e) {
-                log("Could not move %file% generated resource to the correct place");
-                e.printStackTrace();
+                try {
+                    CUtils.move(new File(resourcePlugin.getDataFolder(), resource), file);
+                } catch (IOException e) {
+                    log("Could not move %file% generated resource to the correct place");
+                    e.printStackTrace();
+                    return;
+                }
             }
+        }
+
+        try {
+            config.load(file);
+        } catch (IOException e) {
+            log("Could not load the config file %file%");
+            e.printStackTrace();
+        } catch (InvalidConfigurationException e) {
+            log("Invalid yaml in %file%");
+            e.printStackTrace();
         }
     }
 }

@@ -10,8 +10,7 @@
     <name>OnlyCore</name>
 
     <properties>
-        <java.version>17</java.version>
-        <paper.version>1.16.5-R0.1-SNAPSHOT</paper.version>
+        <java.version>1.8</java.version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>

@@ -19,10 +19,6 @@ public class Actions {
         this.strings = strings;
     }
 
-    public Actions(@NotNull String string) {
-        this(new ArrayList<>(List.of(string)));
-    }
-
     public Actions() {
         this(new ArrayList<>());
     }
@@ -50,7 +46,7 @@ public class Actions {
                 String val = entry.getValue();
 
                 if (key != null && val != null) {
-                    string = string.replace(key, '%' + val + '%');
+                    string = string.replace('%' + key + '%', val);
                 }
             }
 

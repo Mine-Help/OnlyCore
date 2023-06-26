@@ -4,6 +4,7 @@ import me.cable.onlycore.action.provided.BroadcastAction;
 import me.cable.onlycore.action.provided.ConsoleCommandAction;
 import me.cable.onlycore.action.provided.MessageAction;
 import me.cable.onlycore.action.provided.PlayerCommandAction;
+import me.cable.onlycore.util.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -15,13 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 public final class ActionCore {
-
-    static {
-        registerAction(new BroadcastAction());
-        registerAction(new ConsoleCommandAction());
-        registerAction(new MessageAction());
-        registerAction(new PlayerCommandAction());
-    }
 
     private static final Set<Action> actions = new HashSet<>();
 
@@ -44,11 +38,11 @@ public final class ActionCore {
     }
 
     /**
-     * @param string        the action to run
-     * @param commandSender the sender executing
+     * @param string the action to run
+     * @param sender the sender executing
      * @return if the action was found or not
      */
-    public static boolean run(@NotNull String string, @NotNull CommandSender commandSender) {
+    public static boolean run(@NotNull String string, @NotNull CommandSender sender) {
 
         /* Args */
 
@@ -65,19 +59,22 @@ public final class ActionCore {
         String[] args = new String[argsWithLabel.length - 1];
         System.arraycopy(argsWithLabel, 1, args, 0, argsWithLabel.length - 1);
 
-        String raw = string.substring(label.length()).stripLeading();
+        String raw = string.substring(label.length());
+        raw = StringUtils.stripLeading(raw);
 
         /* Run */
 
-        action.run(commandSender);
-        action.run(commandSender, args);
-        action.run(commandSender, raw);
+        action.run(sender);
+        action.run(sender, args);
+        action.run(sender, raw);
 
-        if (commandSender instanceof ConsoleCommandSender consoleCommandSender) {
-            action.run(consoleCommandSender);
-            action.run(consoleCommandSender, args);
-            action.run(consoleCommandSender, raw);
-        } else if (commandSender instanceof Player player) {
+        if (sender instanceof ConsoleCommandSender) {
+            ConsoleCommandSender consoleSender = (ConsoleCommandSender) sender;
+            action.run(consoleSender);
+            action.run(consoleSender, args);
+            action.run(consoleSender, raw);
+        } else if (sender instanceof Player) {
+            Player player = (Player) sender;
             action.run(player);
             action.run(player, args);
             action.run(player, raw);
@@ -94,5 +91,12 @@ public final class ActionCore {
         }
 
         return success;
+    }
+
+    static {
+        registerAction(new BroadcastAction());
+        registerAction(new ConsoleCommandAction());
+        registerAction(new MessageAction());
+        registerAction(new PlayerCommandAction());
     }
 }

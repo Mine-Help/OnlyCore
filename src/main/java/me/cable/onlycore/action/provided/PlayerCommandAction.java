@@ -2,7 +2,7 @@ package me.cable.onlycore.action.provided;
 
 import me.cable.onlycore.action.Action;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerCommandAction extends Action {
@@ -12,7 +12,7 @@ public class PlayerCommandAction extends Action {
     }
 
     @Override
-    public void run(@NotNull CommandSender commandSender, @NotNull String raw) {
-        Bukkit.dispatchCommand(commandSender, raw);
+    public void run(@NotNull Player player, @NotNull String raw) {
+        Bukkit.dispatchCommand(player, raw);
     }
 }

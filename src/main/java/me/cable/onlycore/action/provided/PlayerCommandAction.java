@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerCommandAction extends Action {
 
     public PlayerCommandAction() {
-        super("command");
+        super("player");
     }
 
     @Override

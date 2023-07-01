@@ -43,6 +43,7 @@ public final class ActionCore {
      * @return if the action was found or not
      */
     public static boolean run(@NotNull String string, @NotNull CommandSender sender) {
+        string = string.replace("%sender%", sender.getName()); // sender placeholder
 
         /* Args */
 
